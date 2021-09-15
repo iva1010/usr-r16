@@ -18,8 +18,11 @@ typedef unsigned char BYTE;
 int main(int argc, char *argv[])
 {
         struct sockaddr_in usr_r16;
+
         usr_r16.sin_family = AF_INET;
+
         usr_r16.sin_port = htons(USR_PORT);
+
         inet_pton(AF_INET, USR_IP, &usr_r16.sin_addr.s_addr);
 
         int fd_data = socket(AF_INET, SOCK_STREAM, 0);
@@ -60,18 +63,7 @@ int main(int argc, char *argv[])
         }
 
         printf("%s\n", buffer);
-        /*
-        BYTE command_to_rele[8] = {0x55, 0xaa, 0x00, 0x3, 0x00, 0x03, 0x02 , 0x03};
-        char* cp = command_to_rele;
-
-        for(int i = 0; i < 8; i++)
-        {
-                printf("%02x ", command_to_rele[i]);
-        }
-
-        printf("\n");
-        */
-
+       
         char command_to_rele[] = "\x55\xaa\x00\x03\x00\x03\x02\x03";
 
         req = send(fd_data, command_to_rele, sizeof command_to_rele, 0);
