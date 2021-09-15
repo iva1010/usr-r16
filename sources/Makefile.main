@@ -1,0 +1,28 @@
+CFLAGS = -I ../include -ggdb3
+CC = gcc
+
+argument-valid = ./argument-valid
+
+
+SOURCES = ../main.c $(argument-valid)/argument-valid.c 
+ 
+OBJECTS = $(SOURCES:.c=.o)
+
+EXECUTABLE = ../app/main
+
+all: exec
+
+debug: CFLAGS += -DDEBUG
+debug: clean
+debug: exec
+
+exec: $(OBJECTS)
+	$(CC) $(OBJECTS) -o $(EXECUTABLE) $(LIBS) $(CFLAGS)
+
+.PHONY: clean
+clean:
+	rm $(EXECUTABLE) $(OBJECTS)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(CFLAGS) -c $(OBJECTS) $@
+
