@@ -1,4 +1,5 @@
 #include "argument-valid.h"
+#include "all-off.h"
 #include "debug.h"
 
 #include <stdio.h>
@@ -34,7 +35,8 @@ int main(int argc, char *argv[])
     int req = connect(fd_data, (const struct sockaddr *) &usr_r16, sizeof(struct sockaddr_in));
     
     if (req < 0)
-    {
+    {	
+	close(fd_data);
 	handle_error("connect()");
     }
 
@@ -45,30 +47,37 @@ int main(int argc, char *argv[])
     
     if (req < 0)
     {
+	close(fd_data);
         handle_error("send()");
     }
 
     req = recv(fd_data, buffer, 256, 0);
     
     if (req < 0)
-    {
+    {	
+	close(fd_data);
         handle_error("recv() login");
     }
 
     printf("%s\n", buffer);
 
-    char command_to_rele[] = "\x55\xaa\x00\x03\x00\x03\x02\x03";
+    //char command_to_rele[32] = {0};
+    char command_to_rele [] = "\x55\xaa\x00\x03\x00\x03\x02\x03";
+    //all_off(command_to_rele);
     
     req = send(fd_data, command_to_rele, sizeof command_to_rele, 0);
     
     if (req < 0)
     {
+	close(fd_data);
 	handle_error("send() command");
     }
 
     req = recv(fd_data, buffer, 256, 0);
+    
     if (req < 0)
-    {
+    {	
+	close(fd_data);
 	handle_error("recv() command");
     }
 
@@ -76,14 +85,7 @@ int main(int argc, char *argv[])
 
     close(fd_data);
     exit(EXIT_SUCCESS);
-
-
-
-
-    //printf("%s\n", ip);
-    //printf("%s\n", port);
-
-
+    
     return 0;
 }
 

@@ -8,7 +8,3 @@ main:
 clean:
 	make -f Makefile.main clean
 
-.PHONY: debug
-debug: main
-	make -f Makefile.main debug
-

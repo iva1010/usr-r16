@@ -2,9 +2,10 @@ CFLAGS = -I ../include -ggdb3
 CC = gcc
 
 argument-valid = ./argument-valid
+all-off = ./all-off
 
 
-SOURCES = ../main.c $(argument-valid)/argument-valid.c 
+SOURCES = ../main.c $(argument-valid)/argument-valid.c $(all-off)/all-off.c 
  
 OBJECTS = $(SOURCES:.c=.o)
 
